@@ -5,6 +5,8 @@ import kz.kstu.kutsinas.utils.exceptions.EmptyTicketListExсeption;
 
 import java.io.FileOutputStream;
 import java.io.*;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -39,21 +41,9 @@ public Ticket sellTicket(Client client, Ticket ticket) {
     }
     return ticket;
 }
-/*public List<Ticket> createSoldTicketList(List<Flight> flights,List<Client> clients, List<Ticket> tickets){
-    List<Ticket> soldTickets= new ArrayList<>();
-    Random random= new Random();
-        for(int i=0;i<tickets.size();i++) {
-            Ticket ticket=tickets.get(i);
-            Flight flight=flights.get(random.nextInt(0, flights.size()-1));
-            Client client=clients.get(random.nextInt(0, clients.size()-1));
 
-    Ticket soldTicket = sellTicket(flight,client,ticket);
-    soldTickets.add(soldTicket);
-}
-        return soldTickets;
-    }*/
-    public List<Ticket> createSoldTicketList(List<Client> clients, List<Ticket> tickets) {
-        List<Ticket> soldTickets = new ArrayList<>();
+    public List<Ticket> createSoldTicketList(List<Client> clients, List<Ticket> tickets,List<Ticket> soldTickets) {
+
         try {
             if (tickets.isEmpty()) {
                 throw new EmptyTicketListExсeption();
@@ -85,6 +75,7 @@ public Ticket sellTicket(Client client, Ticket ticket) {
         for(int i=0;i<soldTickets.size();i++){
             tickets.remove(soldTickets.get(i));
         }
+        tickets=changeTicketsCost(tickets);
         return tickets;
     }
 public void acceptReturns(Client client,Flight flight){
@@ -120,6 +111,22 @@ public List<Client> clientsDeserialization(){
             System.err.println(e);;
         }
         return clients;
+}
+public List<Ticket> changeTicketsCost(List<Ticket> tickets){
+   for(int i=0; i<tickets.size();i++){
+       Ticket ticket=tickets.get(i);
+       double cost=ticket.getCost();
+       Flight flight=ticket.getFlight();
+       LocalDateTime departureDate=flight.getDepartureDate();
+       LocalDateTime currentDate=LocalDateTime.now();
+       long daysUntilDeparture= ChronoUnit.DAYS.between(currentDate,departureDate);
+
+       double priceIncreaseFactor=1.01;//цена на билет растет на 1% за каждый день до вылета
+       double updatedCost=cost*Math.pow(priceIncreaseFactor,daysUntilDeparture);
+       ticket.setCost(updatedCost);
+
+   }
+   return tickets;
 }
 }
 

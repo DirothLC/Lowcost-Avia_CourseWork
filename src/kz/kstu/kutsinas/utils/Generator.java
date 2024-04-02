@@ -86,7 +86,7 @@ public class Generator {
         List<Client> clients = new ArrayList<>();
         Random random = new Random();
         String filePathN="ClientNames.txt";
-        String filePathS="Client Surnames.txt";
+        String filePathS="ClientSurnames.txt";
         try {
             String contentN = new String(Files.readAllBytes(Paths.get(filePathN)));
             String[] names = contentN.split(", ");
@@ -120,38 +120,43 @@ public class Generator {
     public static List<Flight> generateFlights(int n) {
         List<Flight> flights = new ArrayList<>();
         Random random = new Random();
+        String filePathDestinations="Destinations.txt";
+        String filePathDeparts="Departs.txt";
+        try {
+            String contentDestination = new String(Files.readAllBytes(Paths.get(filePathDestinations)));
+            String[] destinations = contentDestination.split(", ");
+            String contentDepart = new String(Files.readAllBytes(Paths.get(filePathDeparts)));
+            String[] departs = contentDepart.split(", ");
 
-        for (int i = 0; i < n; i++) {
-            int flightNumber = random.nextInt(100,999);
+            for (int i = 0; i < n; i++) {
+                int flightNumber = random.nextInt(100,999);
 
-            LocalDateTime currentDate = LocalDateTime.now();
-            int days = (int) (Math.random() * 31);
-            int hours = (int) (Math.random() * 24);
-            int minutes = (int) (Math.random() * 60);
-            LocalDateTime departureDate = currentDate.plusDays(days).plusHours(hours).plusMinutes(minutes);
+                LocalDateTime currentDate = LocalDateTime.now();
+                int days = (int) (Math.random() * 31);
+                int hours = (int) (Math.random() * 24);
+                int minutes = (int) (Math.random() * 60);
+                LocalDateTime departureDate = currentDate.plusDays(days).plusHours(hours).plusMinutes(minutes);
 
-            int hoursDuration = random.nextInt(2,12);
-            Duration flightTime = Duration.ofHours(hoursDuration);
-            ;
+                int hoursDuration = random.nextInt(2,12);
+                Duration flightTime = Duration.ofHours(hoursDuration);
 
-            String[] destinations = { //String destination;
-                    "Москва", "Санкт-Питербург", "Москва", "Пекин"
-            };
-            int city = random.nextInt(destinations.length);
-            String destination = destinations[city];
+                int city = random.nextInt(destinations.length);
+                String destination = destinations[city];
 
-            String[] departs = {
-                    "Астана", "Алмата", "Караганда"
-            };
-            int departCity = random.nextInt(departs.length);
-            String depart = departs[departCity];
+                int departCity = random.nextInt(departs.length);
+                String depart = departs[departCity];
 
 
-            int numberOfPassengers = random.nextInt(10, 20);
+                int numberOfPassengers = random.nextInt(10, 20);
 
-            Flight flight = new Flight(flightNumber, departureDate, flightTime, destination, depart, numberOfPassengers);
-            flights.add(flight);
+                Flight flight = new Flight(flightNumber, departureDate, flightTime, destination, depart, numberOfPassengers);
+                flights.add(flight);
+            }
+        }catch (IOException e) {
+            e.printStackTrace();
         }
+
+
         return flights;
 
     }
