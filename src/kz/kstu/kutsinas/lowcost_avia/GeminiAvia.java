@@ -23,6 +23,8 @@ public class GeminiAvia {
         Reporter.print(clients);
         tickets = manager.updateTicketList(tickets, soldTickets);
         Reporter.print(tickets);
+
+        Actions.additionalFunctionsExample(clients,flights);
         Actions.serializationExample(clients);
     }
 

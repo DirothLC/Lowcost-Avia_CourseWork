@@ -56,7 +56,6 @@ public Ticket sellTicket(Client client, Ticket ticket) {
            if(counter%5==0){i+=2;}
 
                 Ticket ticket = tickets.get(i);
-                Flight flight = ticket.getFlight();
                 Client client = clients.get(random.nextInt(0, clients.size()));
 
                 Ticket soldTicket = sellTicket(client, ticket);
@@ -105,10 +104,9 @@ public List<Client> clientsDeserialization(){
         try(FileInputStream fileIn=new FileInputStream("clients.ser");
         ObjectInputStream in=new ObjectInputStream(fileIn)){
             clients=(List<Client>)in.readObject();
-            in.close();
             System.out.println("Deserialization successful");
         }catch (IOException e){System.err.println(e);} catch (ClassNotFoundException e) {
-            System.err.println(e);;
+            System.err.println(e);
         }
         return clients;
 }

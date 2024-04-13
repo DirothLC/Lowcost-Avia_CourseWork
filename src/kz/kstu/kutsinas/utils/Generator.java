@@ -176,7 +176,6 @@ public class Generator {
 
             int hoursDuration = (int) (Math.random() * 12);
             Duration flightTime = Duration.ofHours(hoursDuration);
-            ;
 
             String[] destinations = { //String destination;
                     "Москва", "Санкт-Питербург", "Москва", "Пекин"

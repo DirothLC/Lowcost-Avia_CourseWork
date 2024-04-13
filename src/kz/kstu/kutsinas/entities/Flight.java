@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.Duration;
 import java.util.Objects;
+import java.util.Random;
+
 public class Flight extends AbstractFlight implements Serializable {
     private static final long serialVersionUID = 3926081639289348764L;
     protected Duration flightTime;
@@ -32,6 +34,12 @@ public class Flight extends AbstractFlight implements Serializable {
 
     public int getNumberOfPassengers() {
         return numberOfPassengers;
+    }
+
+    @Override
+    public void flightDelay() {
+        Random random=new Random();
+        this.departureDate=this.departureDate.plusHours(random.nextInt(1,5));
     }
 
     @Override

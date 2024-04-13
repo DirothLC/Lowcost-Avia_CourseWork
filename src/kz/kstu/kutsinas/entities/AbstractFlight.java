@@ -1,10 +1,12 @@
 package kz.kstu.kutsinas.entities;
 
-import java.time.Duration;
+import kz.kstu.kutsinas.interfaces.FlightDelay;
+
+
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public abstract class AbstractFlight implements Cloneable,Comparable<AbstractFlight> {
+public abstract class AbstractFlight implements Cloneable,Comparable<AbstractFlight>, FlightDelay {
     protected int flightNumber;
     protected LocalDateTime departureDate;
     protected String destination;
